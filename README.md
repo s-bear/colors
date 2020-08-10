@@ -5,6 +5,7 @@ Includes
 - sRGB & linear RGB with float, 8-bit, and 16-bit elements
 - CIE XYZ, Lab, LCh with float elements
 - Conversion between any pair of formats
+- Easily extinsible to more color spaces and more data types: all you need is a simple traits class and conversion functions to/from one of the existing spaces
 
 E.g:
 ```cpp
