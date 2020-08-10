@@ -16,6 +16,9 @@ auto rgb = colors::convert<colors::srgb_t<uint8_t>>(lch);
 ```
 
 To Do:
-- Aggregate initialization isn't well-supported. There's probably not much reason to be using std::array<> all over the place since it doesn't work well.
+- Aggregate initialization (`rgb_t<float>{1.0f,1.0f,1.0f}`) isn't well-supported. There's probably not much reason to be using std::array<> all over the place since it doesn't work well.
 - More conveneint load/store interfaces would be good
-- Maybe write some tests, ha
+- Maybe write some tests, ha!
+- Add more spaces: CIE CAM, HSV, HSL, etc? (There are some other interesting spaces out there that could be useful... e.g. there's I recall a variant of Lab that doesn't have hue shifts when changing chromaticity at the expense of being less uniform in JNDs)
+- Color arithmetic: namely alpha blending
+- Projecting colors back into the sRGB gamut along a specific vector (e.g. get a displayable color while maintaining hue)
