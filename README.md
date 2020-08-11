@@ -1,5 +1,5 @@
 # colors
-C++ color-space conversions
+C++ color-space conversions in a single header
 
 Includes
 - sRGB & linear RGB with float, 8-bit, and 16-bit elements
@@ -11,15 +11,18 @@ E.g:
 ```cpp
 //Increase the saturation of an sRGB color using LCh space to preserve luminance
 #include "colors.hpp"
-auto lch = colors::convert<colors::lch_t>(colors::srgb_t<uint8_t>(0xff, 0xcc, 0x88));
+uint8_t r = 0xff, g = 0xcc, b = 0x88;
+auto lch = colors::convert<colors::lch_t>(colors::srgb_t<uint8_t>(r,g,b));
 lch.C = std::pow(lch.C, 0.5);
-auto rgb = colors::convert<colors::srgb_t<uint8_t>>(lch);
+colors::convert<colors::srgb_t<uint8_t>>(lch).store(r,g,b);
 ```
 
+Notes:
+- Converting between element types happens without an explicit call to `convert` (ie. `srgb_t<uint8_t> x(srgb_t<float>(1.0f, 1.0f, 1.0f))` works)
+- Only basic arithmetic is implemented, and only on the "linear" color spaces: RGB, XYZ, and Lab
+
 To Do:
-- Aggregate initialization (`rgb_t<float>{1.0f,1.0f,1.0f}`) isn't well-supported. There's probably not much reason to be using std::array<> all over the place since it doesn't work well.
-- More conveneint load/store interfaces would be good
 - Maybe write some tests, ha!
 - Add more spaces: CIECAM, HSV, HSL, etc? (There are some other interesting spaces out there that could be useful... e.g. there's I recall a variant of Lab that doesn't have hue shifts when changing chromaticity at the expense of being less uniform in JNDs)
-- Color arithmetic: namely alpha (or other) blending. NB: Non-linear spaces (like sRGB) should not support maths as it doesn't make any sense
+- Color arithmetic: namely alpha (or other) blending.
 - Projecting colors back into the sRGB gamut along a specific vector (e.g. get a displayable color while maintaining hue)
